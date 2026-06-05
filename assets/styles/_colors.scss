@@ -1,0 +1,41 @@
+@use 'mixins' as m;
+@use 'sass:map';
+@use 'variables' as *;
+
+$themes: (
+	light: (
+		_scheme: light,
+		positive: $cl-positive--light,
+		negative: $cl-negative--light,
+		accent: $cl-accent--light,
+		text: $cl-text--light,
+		small-text: $cl-small-text--light,
+		background: $cl-background--light,
+		glass-background: $cl-glass-background--light,
+		glass-border: $cl-glass-border--light
+	),
+	dark: (
+		_scheme: dark,
+		positive: $cl-positive--dark,
+		negative: $cl-negative--dark,
+		accent: $cl-accent--dark,
+		text: $cl-text--dark,
+		small-text: $cl-small-text--dark,
+		background: $cl-background--dark,
+		glass-background: $cl-glass-background--dark,
+		glass-border: $cl-glass-border--dark
+	)
+);
+
+:root {
+	&[data-theme-changing] * {
+		transition: none !important;
+	}
+
+	@each $key, $value in $themes {
+		&[data-theme='#{$key}'] {
+			color-scheme: map.get($value, _scheme);
+			@include m.themeToVars($value);
+		}
+	}
+}
